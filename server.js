@@ -12,6 +12,9 @@ app.use(cors({
 const ActivateRoutes = require('./routes');
 ActivateRoutes(app);
 
+app.get('/', (req, res) => {
+	res.send('Development server');
+});
 
 const port = PORT || 3000;
 app.listen(port, () => {
