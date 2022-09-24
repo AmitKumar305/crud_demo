@@ -13,7 +13,7 @@ const ActivateRoutes = require('./routes');
 ActivateRoutes(app);
 
 app.get('/', (req, res) => {
-	res.send('Development server');
+	res.send('Hello Development server');
 });
 
 const port = PORT || 3000;
