@@ -1,4 +1,5 @@
 const AWS = require('aws-sdk');
+const { ACCESS_KEY, SECRET_KEY, } = require('../constants');
 
 AWS.config.update({
     secretAccessKey: SECRET_KEY,
