@@ -8,28 +8,39 @@ module.exports = ({ email, password }) => new Promise(async (resolve, reject) =>
         const user = await UserModel.findOne({
             email,
         });
+        if (!user) {
+            return reject({
+                code: 400,
+                data: 'User not found',
+            });
+        }
 
         const passwordMatched = await bcrypt.compare(password, user.password);
 
-        let token;
-        if (passwordMatched) {
-            token = jwt.sign({
-                name: user.name,
-                email,
-            },
-            TOKEN_SECRET_STRING,
-            {
-                expiresIn: '2d',
-            });
-            user.token = token;
-            return resolve({
-                code: 200,
-                data: user,
+        if (!passwordMatched) {
+            return reject({
+                code: 400,
+                data: 'Invalid password',
             });
         }
-        return reject({
-            code: 400,
-            data: 'Not found',
+
+        const token = jwt.sign({
+            id: user._id,
+            name: user.name,
+            email,
+        },
+        TOKEN_SECRET_STRING,
+        {
+            expiresIn: '365d',
+        });
+
+        return resolve({
+            code: 200,
+            message: 'User logged in successfully',
+            data: {
+                accessToken: token,
+                user,
+            },
         });
 
     } catch (err) {
