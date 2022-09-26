@@ -1,9 +1,11 @@
 const express = require('express');
 const cors = require('cors');
 const app = express();
+const busboyBodyParser = require('busboy-body-parser');
 require('./db/database.js');
 const { PORT } = require('./constants.js');
 app.use(express.json());
+app.use(busboyBodyParser());
 
 app.use(cors({
 	origin: '*',
